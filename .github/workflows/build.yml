@@ -13,6 +13,12 @@ jobs:
         run: brew install xcodegen
       - name: Generate Project
         run: xcodegen generate
+
+      # هذه هي الخطوة السحرية التي تصلح الصيغة
+      - name: Fix objectVersion for Xcode 15
+        run: |
+          sed -i '' 's/objectVersion = 77;/objectVersion = 56;/' BioSync.xcodeproj/project.pbxproj
+
       - name: Build
         run: |
           xcodebuild -project BioSync.xcodeproj -scheme BioSync -sdk iphoneos -configuration Release -derivedDataPath build CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" ONLY_ACTIVE_ARCH=NO SWIFT_OPTIMIZATION_LEVEL="-Onone" build
