@@ -1,0 +1,23 @@
+name: BioSync
+options:
+  bundleIdPrefix: com.tactical.biosync
+  deploymentTarget:
+    iOS: "17.0"
+
+targets:
+  BioSync:
+    type: application
+    platform: iOS
+    sources:
+      - path: .
+        excludes:
+          - "*.yml"
+          - "*.md"
+          - ".github"
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.tactical.biosync
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_NSMotionUsageDescription: "يحتاج التطبيق إلى مستشعرات الحركة لعرض البيانات الحيوية التكتيكية."
+        CODE_SIGNING_ALLOWED: NO
+        CODE_SIGNING_REQUIRED: NO
