@@ -1,6 +1,7 @@
 import Foundation
 import CoreMotion
 import Combine
+import SwiftUI
 
 class MotionManager: ObservableObject {
     private var motionManager = CMMotionManager()
@@ -8,7 +9,6 @@ class MotionManager: ObservableObject {
     @Published var pitch: Double = 0.0
     @Published var roll: Double = 0.0
     @Published var yaw: Double = 0.0
-    
     @Published var isMoving: Bool = false
 
     init() {
@@ -26,7 +26,6 @@ class MotionManager: ObservableObject {
                     self?.roll = data.attitude.roll
                     self?.yaw = data.attitude.yaw
                     
-                    // إذا تحرك الهاتف بقوة، نعتبره "حركة"
                     self?.isMoving = abs(data.userAcceleration.x) > 0.1 || abs(data.userAcceleration.y) > 0.1
                 }
             }
