@@ -1,0 +1,28 @@
+name: Build BioSync IPA
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Generate Project
+        run: xcodegen generate
+      - name: Build
+        run: |
+          xcodebuild -project BioSync.xcodeproj -scheme BioSync -sdk iphoneos -configuration Release -derivedDataPath build CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" ONLY_ACTIVE_ARCH=NO SWIFT_OPTIMIZATION_LEVEL="-Onone" build
+      - name: Package IPA
+        run: |
+          mkdir -p Payload
+          cp -R build/Build/Products/Release-iphoneos/BioSync.app Payload/
+          zip -r BioSync.ipa Payload
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: BioSync-ipa
+          path: BioSync.ipa
